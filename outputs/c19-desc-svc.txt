@@ -1,0 +1,20 @@
+$ kubectl -n id-231 describe svc app-about app-research app-api | grep -E '^(Name|Type|IP|Port|TargetPort|Endpoints):'
+Name:                     app-about
+Type:                     ClusterIP
+IP:                       10.103.195.147
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+Endpoints:                10.244.1.12:80,10.244.2.14:80
+Name:                     app-research
+Type:                     ClusterIP
+IP:                       10.101.19.158
+Port:                     <unset>  80/TCP
+TargetPort:               8080/TCP
+Endpoints:                10.244.2.16:8080
+Name:                     app-api
+Type:                     ClusterIP
+IP:                       10.99.240.121
+Port:                     <unset>  80/TCP
+TargetPort:               8080/TCP
+Endpoints:                10.244.2.15:8080,10.244.1.13:8080
+

@@ -1,0 +1,50 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><title>CT655 id-231 test</title><style>@font-face{font-family:Sarabun;src:url('fonts/Sarabun-Regular.ttf');font-weight:400;}@font-face{font-family:Sarabun;src:url('fonts/Sarabun-SemiBold.ttf');font-weight:600;}@font-face{font-family:Sarabun;src:url('fonts/Sarabun-Bold.ttf');font-weight:700;}
+@page { size: A4; margin: 15mm 16mm 16mm 16mm; @bottom-right { content: counter(page); font: 10pt Sarabun; color:#666; } }
+* { box-sizing: border-box; }
+body { font-family: Sarabun, sans-serif; font-size: 11.5pt; line-height: 1.55; color:#1f2328; margin:0; }
+h2 { font-size: 14.5pt; color:#123a7a; border-bottom: 1.5pt solid #c9d6ef; padding: 4pt 0 2pt; margin: 14pt 0 6pt; break-after: avoid; }
+h3 { font-size: 12.5pt; margin: 10pt 0 4pt; padding-top: 3pt; break-after: avoid; }
+p { margin: 3pt 0 6pt; padding-top: 2pt; break-inside: avoid; }
+ul { margin: 2pt 0 8pt; padding: 4pt 0 0 18pt; } li { margin-bottom: 1pt; }
+code { font-family: Menlo, monospace; font-size: 9pt; background:#f1f3f6; padding: 0 2pt; border-radius: 2pt; white-space: nowrap; }
+.who-top { font-size: 12pt; font-weight: 600; margin: 0 0 10pt; padding: 4pt 0 6pt; border-bottom: 1pt solid #c9d6ef; }
+figure { margin: 4pt 0 10pt; text-align:center; break-inside: avoid; }
+.shot img { display:block; margin:0 auto; }
+figcaption { font-size: 9.5pt; color:#444; margin-top: 3pt; padding-top: 2pt; }
+.diag svg { width: 100%; height: auto; }
+.browser { margin: 0 auto; border: 0.8pt solid #9aa3af; border-radius: 6pt; overflow: hidden; }
+.browser img { display:block; width:100%; }
+.bbar { background:#e5e7eb; padding: 4pt 6pt; display:flex; align-items:center; gap:4pt; border-bottom: 0.8pt solid #9aa3af; }
+.bbar i { width:7pt; height:7pt; border-radius:50%; background:#9ca3af; display:block; }
+.url { flex:1; margin-left:6pt; background:#fff; border-radius: 8pt; padding: 1pt 8pt; font: 8.5pt Menlo, monospace; text-align:left; color:#111; }
+table { border-collapse: collapse; width: 100%; font-size: 10pt; margin: 4pt 0 10pt; break-inside: avoid; }
+th, td { border: 0.8pt solid #c8ced6; padding: 3pt 6pt; vertical-align: top; text-align:left; }
+thead th { background:#123a7a; color:#fff; }
+td code { font-size: 8.4pt; }
+</style></head><body>
+<div class="who-top">นายนิติภูมิ มอญดี &nbsp; รหัสนักศึกษา 68130231</div>
+<h2>ผลการทดสอบการทำงานของ service ทุกตัว</h2>
+<p>เปิดด้วย Chrome บนเครื่อง MacBook โดยให้ชื่อ www.id-231.com และ admin.id-231.com ชี้ไปที่ External LB (<code>192.168.64.6</code>)</p>
+<h3>1. www.id-231.com/about (app-about)</h3>
+<figure class="web"><div class="browser" style="width:150mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://www.id-231.com/about</span></div><img src="web/w1-about.png"></div><figcaption>ภาพที่ 1 หน้า about แสดงรูป ชื่อ และรหัสนักศึกษา</figcaption></figure>
+<figure class="shot"><img src="shots/l04-test-about.png" style="width:178.0mm"><figcaption>ภาพที่ 2 เรียก /about ด้วย curl จากเครื่อง Linux</figcaption></figure>
+<h3>2. www.id-231.com/research (app-research)</h3>
+<figure class="web"><div class="browser" style="width:150mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://www.id-231.com/research</span></div><img src="web/w2-research.png"></div><figcaption>ภาพที่ 3 หน้าสรุปงานวิจัย</figcaption></figure>
+<figure class="shot"><img src="shots/l05-test-research.png" style="width:178.0mm"><figcaption>ภาพที่ 4 เรียก /research ด้วย curl</figcaption></figure>
+<h3>3. www.id-231.com/api/&lt;ข้อความ&gt; (app-api)</h3>
+<figure class="web"><div class="browser" style="width:130mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://www.id-231.com/api/Hello K8s</span></div><img src="web/w3-api.png"></div><figcaption>ภาพที่ 5 ข้อความ Hello K8s ตัวใหญ่กลางจอ</figcaption></figure>
+<figure class="web"><div class="browser" style="width:130mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://www.id-231.com/api/ID 68130231</span></div><img src="web/w4-api-id.png"></div><figcaption>ภาพที่ 6 เปลี่ยนข้อความใน URL หน้าเว็บก็เปลี่ยนตาม</figcaption></figure>
+<figure class="shot"><img src="shots/l06-test-api.png" style="width:178.0mm"><figcaption>ภาพที่ 7 เรียก /api ด้วย curl คำตอบสลับกันมาจาก Pod 2 ตัว</figcaption></figure>
+<h3>4. admin.id-231.com (app-research /edit)</h3>
+<figure class="web"><div class="browser" style="width:140mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://admin.id-231.com/</span></div><img src="web/w5-admin.png"></div><figcaption>ภาพที่ 8 หน้าแก้ไขสรุปงานวิจัย</figcaption></figure>
+<figure class="shot"><img src="shots/l07-test-admin.png" style="width:178.0mm"><figcaption>ภาพที่ 9 เรียก admin.id-231.com ด้วย curl</figcaption></figure>
+<h3>5. แก้ไขแล้วบันทึกกลับ</h3>
+<figure class="shot"><img src="shots/l08-edit.png" style="width:178.0mm"><figcaption>ภาพที่ 10 ส่งข้อมูลที่แก้ไข (POST) ผ่าน admin.id-231.com</figcaption></figure>
+<figure class="web"><div class="browser" style="width:140mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://admin.id-231.com/</span></div><img src="web/w6-admin-after.png"></div><figcaption>ภาพที่ 11 หน้าแก้ไขหลังบันทึก ชื่อเรื่องเปลี่ยนแล้ว</figcaption></figure>
+<figure class="web"><div class="browser" style="width:140mm"><div class="bbar"><i></i><i></i><i></i><span class="url">http://www.id-231.com/research</span></div><img src="web/w7-research-after.png"></div><figcaption>ภาพที่ 12 หน้า /research แสดงชื่อเรื่องที่แก้ไข</figcaption></figure>
+<figure class="shot"><img src="shots/c21-restart.png" style="width:178.0mm"><figcaption>ภาพที่ 13 ลบ Pod ของ app-research</figcaption></figure>
+<figure class="shot"><img src="shots/l09-after-restart.png" style="width:145.7mm"><figcaption>ภาพที่ 14 หลัง Pod ถูกสร้างใหม่ ข้อมูลที่แก้ไขยังอยู่</figcaption></figure>
+<h3>6. Service ใน cluster</h3>
+<figure class="shot"><img src="shots/c16-get-svc.png" style="width:178.0mm"><figcaption>ภาพที่ 15 Service, Endpoints, PV และ PVC</figcaption></figure>
+<figure class="shot"><img src="shots/c22-ingress-log.png" style="width:178.0mm"><figcaption>ภาพที่ 16 log ของ Ingress Controller แสดง Service ปลายทางของแต่ละ path</figcaption></figure>
+</body></html>

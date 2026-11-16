@@ -1,0 +1,15 @@
+$ curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download} bytes\n' http://admin.id-231.com/
+200 text/html; charset=utf-8 7837 bytes
+
+$ curl -s http://admin.id-231.com/ | grep -oE '<h1>[^<]*</h1>|<form method="post">|<textarea name="body">|<button[^>]*>[^<]*</button>'
+<h1>Edit research summary</h1>
+<form method="post">
+<textarea name="body">
+<button type="submit">Save</button>
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://www.id-231.com/edit
+404
+
+$ curl -s -o /dev/null -w '%{http_code}\n' http://www.id-231.com/
+404
+

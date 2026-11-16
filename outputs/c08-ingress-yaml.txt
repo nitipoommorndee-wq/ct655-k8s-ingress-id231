@@ -1,0 +1,57 @@
+$ cat k8s/40-ingress.yaml
+# www.id-231.com   : /about -> app-about, /research -> app-research, /api -> app-api
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-id-231
+  namespace: id-231
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.id-231.com
+      http:
+        paths:
+          - path: /about
+            pathType: Prefix
+            backend:
+              service:
+                name: app-about
+                port:
+                  number: 80
+          - path: /research
+            pathType: Prefix
+            backend:
+              service:
+                name: app-research
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: app-api
+                port:
+                  number: 80
+---
+# admin.id-231.com : every request is rewritten to /edit of app-research
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin-id-231
+  namespace: id-231
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /edit
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: admin.id-231.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-research
+                port:
+                  number: 80
+

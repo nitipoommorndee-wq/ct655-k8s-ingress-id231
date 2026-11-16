@@ -1,0 +1,8 @@
+$ grep -n -B6 'nodePort' ingress-controller/deploy.yaml | grep -E 'name: http|port:|nodePort'
+352-    name: http
+353-    port: 80
+356:    nodePort: 30081
+358-    name: https
+359-    port: 443
+362:    nodePort: 30443
+

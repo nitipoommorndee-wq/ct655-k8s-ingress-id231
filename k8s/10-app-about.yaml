@@ -1,0 +1,52 @@
+# app-about : nginx serves the static page /about (photo, name, student id)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-about
+  namespace: id-231
+  labels:
+    app: app-about
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-about
+  template:
+    metadata:
+      labels:
+        app: app-about
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: web
+              mountPath: /usr/share/nginx/html/about
+            - name: conf
+              mountPath: /etc/nginx/conf.d
+          readinessProbe:
+            httpGet:
+              path: /about
+              port: 80
+      volumes:
+        - name: web
+          configMap:
+            name: app-about-web
+        - name: conf
+          configMap:
+            name: app-about-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-about
+  namespace: id-231
+spec:
+  type: ClusterIP
+  selector:
+    app: app-about
+  ports:
+    - port: 80
+      targetPort: 80

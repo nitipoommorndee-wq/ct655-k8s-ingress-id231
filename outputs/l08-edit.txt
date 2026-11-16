@@ -1,0 +1,6 @@
+$ curl -s -X POST http://admin.id-231.com/ --data-urlencode 'title=Web-Based IDE (edited from admin.id-231.com)' --data-urlencode body@summary.txt -o /dev/null -w '%{http_code}\n'
+200
+
+$ curl -s http://www.id-231.com/research | grep -o '<h1>.*</h1>'
+<h1>Web-Based IDE (edited from admin.id-231.com)</h1>
+

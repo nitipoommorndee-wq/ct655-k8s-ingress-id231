@@ -1,0 +1,12 @@
+$ curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download} bytes\n' http://www.id-231.com/about
+200 text/html; charset=utf-8 1167 bytes
+
+$ curl -s http://www.id-231.com/about | grep -E '<img|<h1|class="(en|id)"' | sed 's/<h1>.*<\/h1>/<h1>(Thai name)<\/h1>/'
+    <img src="/about/photo.jpg" alt="photo">
+    <h1>(Thai name)</h1>
+    <div class="en">Nitipoom Morndee</div>
+    <div class="id">ID 68130231</div>
+
+$ curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download} bytes\n' http://www.id-231.com/about/photo.jpg
+200 image/jpeg 65154 bytes
+

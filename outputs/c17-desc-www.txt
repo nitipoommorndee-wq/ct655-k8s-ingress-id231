@@ -1,0 +1,20 @@
+$ kubectl -n id-231 describe ingress www-id-231
+Name:             www-id-231
+Labels:           <none>
+Namespace:        id-231
+Address:          192.168.64.4
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host            Path  Backends
+  ----            ----  --------
+  www.id-231.com  
+                  /about      app-about:80 (10.244.1.12:80,10.244.2.14:80)
+                  /research   app-research:80 (10.244.2.16:8080)
+                  /api        app-api:80 (10.244.2.15:8080,10.244.1.13:8080)
+Annotations:      <none>
+Events:
+  Type    Reason  Age                From                      Message
+  ----    ------  ----               ----                      -------
+  Normal  Sync    31s (x2 over 66s)  nginx-ingress-controller  Scheduled for sync
+

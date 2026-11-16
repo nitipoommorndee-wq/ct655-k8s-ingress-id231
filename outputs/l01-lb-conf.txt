@@ -1,0 +1,25 @@
+$ cat /etc/nginx/conf.d/www-id-231.conf
+# External Load Balancer (k8s-lb 192.168.64.6) -> ingress-nginx NodePort 30081 on every node
+upstream k8s_ingress {
+    server 192.168.64.3:30081 max_fails=2 fail_timeout=10s;   # k8s-control
+    server 192.168.64.5:30081 max_fails=2 fail_timeout=10s;   # k8s-worker1
+    server 192.168.64.4:30081 max_fails=2 fail_timeout=10s;   # k8s-worker2
+}
+
+log_format id_231 '$remote_addr -> $upstream_addr $host "$request" $status';
+
+server {
+    listen 80;
+    server_name www.id-231.com admin.id-231.com;
+
+    access_log /var/log/nginx/id-231.access.log id_231;
+
+    location / {
+        proxy_pass http://k8s_ingress;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 2s;
+    }
+}
+

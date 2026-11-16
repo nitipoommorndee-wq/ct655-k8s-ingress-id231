@@ -1,0 +1,10 @@
+$ sudo tail -n 8 /var/log/nginx/id-231.access.log
+192.168.64.1 -> 192.168.64.5:30081 admin.id-231.com "GET /favicon.ico HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.4:30081 www.id-231.com "GET /research HTTP/1.1" 200
+192.168.64.6 -> 192.168.64.5:30081 www.id-231.com "GET /research HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.4:30081 www.id-231.com "GET /about HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.3:30081 www.id-231.com "GET /research HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.5:30081 www.id-231.com "GET /api/Hello-K8s HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.4:30081 admin.id-231.com "GET / HTTP/1.1" 200
+192.168.64.1 -> 192.168.64.3:30081 www.id-231.com "HEAD /about HTTP/1.1" 200
+

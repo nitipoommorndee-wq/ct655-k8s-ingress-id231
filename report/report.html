@@ -1,0 +1,199 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><title>CT655 K8s Ingress id-231</title><style>@font-face{font-family:Sarabun;src:url('fonts/Sarabun-Regular.ttf');font-weight:400;}@font-face{font-family:Sarabun;src:url('fonts/Sarabun-SemiBold.ttf');font-weight:600;}@font-face{font-family:Sarabun;src:url('fonts/Sarabun-Bold.ttf');font-weight:700;}
+@page { size: A4; margin: 15mm 16mm 16mm 16mm; @bottom-right { content: counter(page); font: 10pt Sarabun; color:#666; } }
+* { box-sizing: border-box; }
+body { font-family: Sarabun, sans-serif; font-size: 11.5pt; line-height: 1.55; color:#1f2328; margin:0; }
+h2 { font-size: 14.5pt; color:#123a7a; border-bottom: 1.5pt solid #c9d6ef; padding: 4pt 0 2pt; margin: 14pt 0 6pt; break-after: avoid; }
+h3 { font-size: 12.5pt; margin: 10pt 0 4pt; padding-top: 3pt; break-after: avoid; }
+p { margin: 3pt 0 6pt; padding-top: 2pt; break-inside: avoid; }
+ul { margin: 2pt 0 8pt; padding: 4pt 0 0 18pt; } li { margin-bottom: 1pt; }
+code { font-family: Menlo, monospace; font-size: 9pt; background:#f1f3f6; padding: 0 2pt; border-radius: 2pt; white-space: nowrap; }
+.who-top { font-size: 12pt; font-weight: 600; margin: 0 0 10pt; padding: 4pt 0 6pt; border-bottom: 1pt solid #c9d6ef; }
+figure { margin: 4pt 0 10pt; text-align:center; break-inside: avoid; }
+.shot img { display:block; margin:0 auto; }
+figcaption { font-size: 9.5pt; color:#444; margin-top: 3pt; padding-top: 2pt; }
+.diag svg { width: 100%; height: auto; }
+.browser { margin: 0 auto; border: 0.8pt solid #9aa3af; border-radius: 6pt; overflow: hidden; }
+.browser img { display:block; width:100%; }
+.bbar { background:#e5e7eb; padding: 4pt 6pt; display:flex; align-items:center; gap:4pt; border-bottom: 0.8pt solid #9aa3af; }
+.bbar i { width:7pt; height:7pt; border-radius:50%; background:#9ca3af; display:block; }
+.url { flex:1; margin-left:6pt; background:#fff; border-radius: 8pt; padding: 1pt 8pt; font: 8.5pt Menlo, monospace; text-align:left; color:#111; }
+table { border-collapse: collapse; width: 100%; font-size: 10pt; margin: 4pt 0 10pt; break-inside: avoid; }
+th, td { border: 0.8pt solid #c8ced6; padding: 3pt 6pt; vertical-align: top; text-align:left; }
+thead th { background:#123a7a; color:#fff; }
+td code { font-size: 8.4pt; }
+</style></head><body>
+<div class="who-top">นายนิติภูมิ มอญดี &nbsp; รหัสนักศึกษา 68130231</div>
+<p>รหัสนักศึกษา 3 ตัวท้ายคือ 231 จึงใช้ชื่อ <code>www.id-231.com</code> และ <code>admin.id-231.com</code> &nbsp; GitHub: <code>https://github.com/nitipoommorndee-wq/ct655-k8s-ingress-id231</code></p>
+
+<h2>1. ภาพรวมของระบบ</h2>
+<p>ใช้ cluster เดิม 3 node และเครื่อง <code>k8s-lb</code> จากงานที่แล้ว งานนี้เพิ่ม Ingress Controller (ingress-nginx) เข้าไปใน cluster
+เพื่อแยกเส้นทางตามชื่อ host และ path ไปยังแอป 3 ตัว คือ <code>app-about</code>, <code>app-research</code> และ <code>app-api</code>
+แต่ละแอปมี Service แบบ ClusterIP ของตัวเอง ส่วนเครื่อง LB รับที่พอร์ต 80 แล้วส่งต่อไปที่ NodePort 30081 ของ Ingress Controller</p>
+<figure class="diag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1110" width="1400" height="1110">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C2410C"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/></marker><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/></marker><marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7B3FE4"/></marker></defs>
+<rect x="0" y="0" width="1400" height="1110" rx="0" fill="#fff" stroke="none" stroke-width="1.5"/>
+<text x="40" y="44" font-family="Sarabun, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start" style="white-space:pre">สถาปัตยกรรมระบบ www.id-231.com / admin.id-231.com</text>
+<text x="40" y="70" font-family="Sarabun, sans-serif" font-size="14" font-weight="400" fill="#6B7280" text-anchor="start" style="white-space:pre">Client → /etc/hosts → External LB :80 → NodePort :30081 → Ingress Controller → Service (ClusterIP) → Pod</text>
+<rect x="380" y="92" width="640" height="100" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="2"/>
+<text x="700" y="120" font-family="Sarabun, sans-serif" font-size="17" font-weight="700" fill="#374151" text-anchor="middle" style="white-space:pre">Client (Linux / MacBook)</text>
+<text x="700" y="146" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#374151" text-anchor="middle" style="white-space:pre">/etc/hosts   192.168.64.6 www.id-231.com</text>
+<text x="700" y="166" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#374151" text-anchor="middle" style="white-space:pre">             192.168.64.6 admin.id-231.com</text>
+<path d="M700,192 V236" fill="none" stroke="#C2410C" stroke-width="4" marker-end="url(#ar)" stroke-linejoin="round"/>
+<text x="716" y="220" font-family="Sarabun, sans-serif" font-size="13" font-weight="600" fill="#C2410C" text-anchor="start" style="white-space:pre">HTTP :80  (Host: www.id-231.com / admin.id-231.com)</text>
+<rect x="250" y="240" width="900" height="122" rx="14" fill="#FFF4EC" stroke="#C2410C" stroke-width="2.5"/>
+<text x="272" y="270" font-family="Sarabun, sans-serif" font-size="19" font-weight="700" fill="#C2410C" text-anchor="start" style="white-space:pre">External Load Balancer: k8s-lb</text>
+<text x="1128" y="270" font-family="Sarabun, sans-serif" font-size="14" font-weight="600" fill="#6B7280" text-anchor="end" style="white-space:pre">NginX reverse proxy</text>
+<text x="272" y="298" font-family="Menlo, monospace" font-size="13.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">IP 192.168.64.6   listen 80   server_name www.id-231.com admin.id-231.com</text>
+<text x="272" y="322" font-family="Menlo, monospace" font-size="13.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">upstream k8s_ingress  192.168.64.3:30081  192.168.64.5:30081  192.168.64.4:30081</text>
+<text x="272" y="346" font-family="Menlo, monospace" font-size="13.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">proxy_set_header Host $host   (round robin)</text>
+<rect x="40" y="420" width="1320" height="670" rx="16" fill="#FAFBFF" stroke="#2F64D0" stroke-width="2.2"/>
+<rect x="60" y="444" width="410" height="58" rx="8" fill="#fff" stroke="#E8710A" stroke-width="2.2"/>
+<text x="74" y="468" font-family="Sarabun, sans-serif" font-size="14" font-weight="700" fill="#374151" text-anchor="start" style="white-space:pre">k8s-control  (control-plane)</text>
+<text x="74" y="490" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#111827" text-anchor="start" style="white-space:pre">NodePort 192.168.64.3:30081</text>
+<path d="M520,362 C520,400 265,390 265,440" fill="none" stroke="#E8710A" stroke-width="3" marker-end="url(#ao)" stroke-linejoin="round"/>
+<rect x="495" y="444" width="410" height="58" rx="8" fill="#fff" stroke="#E8710A" stroke-width="2.2"/>
+<text x="509" y="468" font-family="Sarabun, sans-serif" font-size="14" font-weight="700" fill="#374151" text-anchor="start" style="white-space:pre">k8s-worker1  (worker)</text>
+<text x="509" y="490" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#111827" text-anchor="start" style="white-space:pre">NodePort 192.168.64.5:30081</text>
+<path d="M700,362 C700,400 700,390 700,440" fill="none" stroke="#E8710A" stroke-width="3" marker-end="url(#ao)" stroke-linejoin="round"/>
+<rect x="930" y="444" width="410" height="58" rx="8" fill="#fff" stroke="#E8710A" stroke-width="2.2"/>
+<text x="944" y="468" font-family="Sarabun, sans-serif" font-size="14" font-weight="700" fill="#374151" text-anchor="start" style="white-space:pre">k8s-worker2  (worker)</text>
+<text x="944" y="490" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#111827" text-anchor="start" style="white-space:pre">NodePort 192.168.64.4:30081</text>
+<path d="M880,362 C880,400 1135,390 1135,440" fill="none" stroke="#E8710A" stroke-width="3" marker-end="url(#ao)" stroke-linejoin="round"/>
+<path d="M265,502 L580,540" fill="none" stroke="#E8710A" stroke-width="2.4" marker-end="url(#ao)" stroke-linejoin="round"/>
+<path d="M700,502 L700,540" fill="none" stroke="#E8710A" stroke-width="2.4" marker-end="url(#ao)" stroke-linejoin="round"/>
+<path d="M1135,502 L820,540" fill="none" stroke="#E8710A" stroke-width="2.4" marker-end="url(#ao)" stroke-linejoin="round"/>
+<rect x="250" y="544" width="900" height="150" rx="14" fill="#F5F0FF" stroke="#7B3FE4" stroke-width="2.5"/>
+<text x="272" y="574" font-family="Sarabun, sans-serif" font-size="17" font-weight="700" fill="#7B3FE4" text-anchor="start" style="white-space:pre">Ingress Controller: ingress-nginx  (namespace ingress-nginx)</text>
+<text x="272" y="600" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Service ingress-nginx-controller  NodePort  10.104.51.116  80:30081</text>
+<text x="272" y="624" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Ingress www-id-231    www.id-231.com   /about  /research  /api</text>
+<text x="272" y="646" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Ingress admin-id-231  admin.id-231.com /       rewrite-target: /edit</text>
+<text x="272" y="670" font-family="Menlo, monospace" font-size="13" font-weight="400" fill="#6B7280" text-anchor="start" style="white-space:pre">controller pod 10.244.1.11 on k8s-worker2   ingressClassName: nginx</text>
+<rect x="60" y="774" width="410" height="230" rx="12" fill="#fff" stroke="#2E9E5B" stroke-width="2.4"/>
+<text x="76" y="804" font-family="Sarabun, sans-serif" font-size="19" font-weight="700" fill="#2E9E5B" text-anchor="start" style="white-space:pre">app-about</text>
+<text x="454" y="804" font-family="Sarabun, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="end" style="white-space:pre">replicas 2/2</text>
+<text x="76" y="832" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Service   ClusterIP 10.103.195.147:80</text>
+<text x="76" y="854" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">targetPort 80</text>
+<text x="76" y="876" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">image     nginx:1.25</text>
+<text x="76" y="904" font-family="Sarabun, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">ConfigMap: index.html, photo.jpg</text>
+<rect x="74" y="924" width="382" height="30" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+<text x="265" y="944" font-family="Menlo, monospace" font-size="12.5" font-weight="600" fill="#111827" text-anchor="middle" style="white-space:pre">www.id-231.com/about</text>
+<path d="M560,694 C560,739 265,729 265,770" fill="none" stroke="#2E9E5B" stroke-width="3" marker-end="url(#ag)" stroke-linejoin="round"/>
+<text x="253" y="760" font-family="Menlo, monospace" font-size="13" font-weight="700" fill="#2E9E5B" text-anchor="end" style="white-space:pre">/about</text>
+<rect x="495" y="774" width="410" height="230" rx="12" fill="#fff" stroke="#2F64D0" stroke-width="2.4"/>
+<text x="511" y="804" font-family="Sarabun, sans-serif" font-size="19" font-weight="700" fill="#2F64D0" text-anchor="start" style="white-space:pre">app-research</text>
+<text x="889" y="804" font-family="Sarabun, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="end" style="white-space:pre">replicas 1/1</text>
+<text x="511" y="832" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Service   ClusterIP 10.101.19.158:80</text>
+<text x="511" y="854" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">targetPort 8080</text>
+<text x="511" y="876" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">image     python:3.12-alpine</text>
+<text x="511" y="904" font-family="Sarabun, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">PVC research-pvc → /data</text>
+<rect x="509" y="924" width="382" height="30" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+<text x="700" y="944" font-family="Menlo, monospace" font-size="12.5" font-weight="600" fill="#111827" text-anchor="middle" style="white-space:pre">www.id-231.com/research</text>
+<rect x="509" y="962" width="382" height="30" rx="6" fill="#F5F0FF" stroke="#7B3FE4" stroke-width="1.2"/>
+<text x="700" y="982" font-family="Menlo, monospace" font-size="12.5" font-weight="600" fill="#7B3FE4" text-anchor="middle" style="white-space:pre">admin.id-231.com  →  /edit</text>
+<path d="M700,694 C700,739 700,729 700,770" fill="none" stroke="#2F64D0" stroke-width="3" marker-end="url(#ag)" stroke-linejoin="round"/>
+<text x="712" y="760" font-family="Menlo, monospace" font-size="13" font-weight="700" fill="#2F64D0" text-anchor="start" style="white-space:pre">/research</text>
+<rect x="930" y="774" width="410" height="230" rx="12" fill="#fff" stroke="#E8710A" stroke-width="2.4"/>
+<text x="946" y="804" font-family="Sarabun, sans-serif" font-size="19" font-weight="700" fill="#E8710A" text-anchor="start" style="white-space:pre">app-api</text>
+<text x="1324" y="804" font-family="Sarabun, sans-serif" font-size="13" font-weight="600" fill="#6B7280" text-anchor="end" style="white-space:pre">replicas 2/2</text>
+<text x="946" y="832" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">Service   ClusterIP 10.99.240.121:80</text>
+<text x="946" y="854" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">targetPort 8080</text>
+<text x="946" y="876" font-family="Menlo, monospace" font-size="12.5" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">image     python:3.12-alpine</text>
+<text x="946" y="904" font-family="Sarabun, sans-serif" font-size="13" font-weight="400" fill="#374151" text-anchor="start" style="white-space:pre">ConfigMap: app.py</text>
+<rect x="944" y="924" width="382" height="30" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+<text x="1135" y="944" font-family="Menlo, monospace" font-size="12.5" font-weight="600" fill="#111827" text-anchor="middle" style="white-space:pre">www.id-231.com/api/&lt;text&gt;</text>
+<path d="M840,694 C840,739 1135,729 1135,770" fill="none" stroke="#E8710A" stroke-width="3" marker-end="url(#ag)" stroke-linejoin="round"/>
+<text x="1147" y="760" font-family="Menlo, monospace" font-size="13" font-weight="700" fill="#E8710A" text-anchor="start" style="white-space:pre">/api</text>
+<path d="M760,694 C790,744 600,754 560,770" fill="none" stroke="#7B3FE4" stroke-width="2.4" stroke-dasharray="6 5" marker-end="url(#ap)" stroke-linejoin="round"/>
+<text x="546" y="760" font-family="Menlo, monospace" font-size="12.5" font-weight="700" fill="#7B3FE4" text-anchor="end" style="white-space:pre">admin → /edit</text>
+<text x="60" y="1036" font-family="Sarabun, sans-serif" font-size="19" font-weight="700" fill="#2F64D0" text-anchor="start" style="white-space:pre">K8s Cluster (kubeadm v1.31, Flannel)</text>
+<text x="60" y="1062" font-family="Sarabun, sans-serif" font-size="13.5" font-weight="600" fill="#3730A3" text-anchor="start" style="white-space:pre">namespace id-231   ·   Pod network 10.244.0.0/16   ·   PV research-pv (hostPath /mnt/id-231-research on k8s-worker1)</text>
+</svg><figcaption>ภาพที่ 1 สถาปัตยกรรมระบบ</figcaption></figure>
+<table><thead><tr><th style="width:36%">URL</th><th style="width:20%">แอป</th><th>การทำงาน</th></tr></thead><tbody>
+<tr><td><code>www.id-231.com/about</code></td><td>app-about</td><td>แสดงรูป ชื่อ และรหัสนักศึกษา (nginx)</td></tr>
+<tr><td><code>www.id-231.com/research</code></td><td>app-research</td><td>แสดงสรุปงานวิจัย</td></tr>
+<tr><td><code>www.id-231.com/api/&lt;text&gt;</code></td><td>app-api</td><td>แสดงข้อความตัวใหญ่กลางจอ</td></tr>
+<tr><td><code>admin.id-231.com</code></td><td>app-research</td><td>Ingress เปลี่ยน path เป็น <code>/edit</code> เปิดหน้าแก้ไขและบันทึกสรุปงานวิจัย</td></tr>
+</tbody></table>
+
+<h2>2. ไฟล์ทั้งหมดของงาน</h2>
+<p>ไฟล์ทั้งหมดอยู่ในโฟลเดอร์ <code>~/id-231</code> บนเครื่อง k8s-control โครงสร้างเดียวกับใน GitHub</p>
+<figure class="shot"><img src="shots/c02-files.png" style="width:142.4mm"><figcaption>ภาพที่ 2 ไฟล์ในโฟลเดอร์งาน</figcaption></figure>
+<p>แอป <code>app-research</code> และ <code>app-api</code> เขียนด้วย Python (ใช้ http.server ที่มีมากับ Python) ส่วน <code>app-about</code> เป็นหน้า HTML
+โค้ดและหน้าเว็บใส่เข้า Pod ผ่าน ConfigMap จึงใช้ image สำเร็จรูป <code>python:3.12-alpine</code> และ <code>nginx:1.25</code> ได้เลย ไม่ต้อง build image เอง</p>
+
+<h2>3. K8s Manifest</h2>
+<h3>3.1 Namespace</h3>
+<figure class="shot"><img src="shots/c03-ns-yaml.png" style="width:142.4mm"><figcaption>ภาพที่ 3 k8s/00-namespace.yaml</figcaption></figure>
+<h3>3.2 app-about</h3>
+<figure class="shot"><img src="shots/c04-about-yaml.png" style="height:200mm"><figcaption>ภาพที่ 4 k8s/10-app-about.yaml</figcaption></figure>
+<p>mount ConfigMap <code>app-about-web</code> (index.html กับ photo.jpg) ไว้ที่โฟลเดอร์เว็บของ nginx และ mount <code>app-about-conf</code> เป็น config ของ nginx ให้ตอบที่ path <code>/about</code></p>
+<figure class="shot"><img src="shots/c05-about-conf.png" style="width:142.4mm"><figcaption>ภาพที่ 5 apps/app-about/default.conf</figcaption></figure>
+<h3>3.3 app-research</h3>
+<figure class="shot"><img src="shots/c06-research-yaml.png" style="height:232mm"><figcaption>ภาพที่ 6 k8s/20-app-research.yaml (PV, PVC, Deployment, Service)</figcaption></figure>
+<p>ข้อความสรุปงานวิจัยเก็บเป็นไฟล์ <code>/data/research.txt</code> บน PersistentVolume เพื่อให้ข้อมูลที่แก้ไขแล้วไม่หายเมื่อ Pod ถูกสร้างใหม่
+PV เป็นแบบ hostPath อยู่บน k8s-worker1 จึงใช้ 1 replica และ strategy แบบ Recreate</p>
+<h3>3.4 app-api</h3>
+<figure class="shot"><img src="shots/c07-api-yaml.png" style="width:142.4mm"><figcaption>ภาพที่ 7 k8s/30-app-api.yaml</figcaption></figure>
+<h3>3.5 Ingress</h3>
+<figure class="shot"><img src="shots/c08-ingress-yaml.png" style="width:150.9mm"><figcaption>ภาพที่ 8 k8s/40-ingress.yaml</figcaption></figure>
+<ul>
+<li>Ingress <code>www-id-231</code> ใช้ host <code>www.id-231.com</code> แยก 3 path ไปที่ Service ของแต่ละแอป</li>
+<li>Ingress <code>admin-id-231</code> ใช้ host <code>admin.id-231.com</code> และใส่ annotation <code>rewrite-target: /edit</code> ทุก request จึงถูกส่งไปที่ <code>/edit</code> ของ app-research</li>
+</ul>
+<h3>3.6 Ingress Controller</h3>
+<p>ใช้ manifest ของ ingress-nginx v1.12.1 แบบ baremetal แก้อย่างเดียวคือกำหนด NodePort ให้คงที่เป็น 30081 (http) และ 30443 (https) เพื่อให้ LB ชี้มาได้</p>
+<figure class="shot"><img src="shots/c09-ctl-nodeport.png" style="width:178.0mm"><figcaption>ภาพที่ 9 NodePort ที่กำหนดใน ingress-controller/deploy.yaml</figcaption></figure>
+
+<h2>4. ขั้นตอนการสั่ง kubectl</h2>
+<h3>4.1 ติดตั้ง Ingress Controller</h3>
+<figure class="shot"><img src="shots/c10-ctl-apply.png" style="width:178.0mm"><figcaption>ภาพที่ 10 apply ingress-nginx แล้วรอจน controller พร้อม</figcaption></figure>
+<figure class="shot"><img src="shots/c11-ctl-get.png" style="width:178.0mm"><figcaption>ภาพที่ 11 Pod, Service และ IngressClass ของ ingress-nginx</figcaption></figure>
+<h3>4.2 สร้าง Namespace และ ConfigMap</h3>
+<figure class="shot"><img src="shots/c12-ns-cm.png" style="width:178.0mm"><figcaption>ภาพที่ 12 สร้าง namespace id-231 และ ConfigMap จากไฟล์ในโฟลเดอร์ apps</figcaption></figure>
+<h3>4.3 สร้าง Deployment และ Service</h3>
+<figure class="shot"><img src="shots/c13-apps-apply.png" style="width:178.0mm"><figcaption>ภาพที่ 13 apply แอปทั้ง 3 ตัว แล้วรอ rollout</figcaption></figure>
+<h3>4.4 สร้าง Ingress</h3>
+<figure class="shot"><img src="shots/c14-ingress-apply.png" style="width:142.4mm"><figcaption>ภาพที่ 14 apply Ingress ทั้ง 2 ตัว</figcaption></figure>
+<p>ขั้นตอนทั้งหมดนี้รวมไว้ในไฟล์ <code>deploy.sh</code> สั่งครั้งเดียวได้</p>
+
+<h2>5. External LB และ /etc/hosts</h2>
+<p>บนเครื่อง <code>k8s-lb</code> เพิ่มไฟล์ <code>/etc/nginx/conf.d/www-id-231.conf</code> รับ request ของ 2 ชื่อนี้แล้วส่งต่อไปที่ NodePort 30081 ของทุก node
+โดยส่ง header <code>Host</code> เดิมต่อไปด้วย เพราะ Ingress ใช้ชื่อ host ในการเลือกเส้นทาง</p>
+<figure class="shot"><img src="shots/l01-lb-conf.png" style="width:164.5mm"><figcaption>ภาพที่ 15 config ของ LB สำหรับ id-231</figcaption></figure>
+<figure class="shot"><img src="shots/l02-lb-apply.png" style="width:178.0mm"><figcaption>ภาพที่ 16 ตรวจ config แล้ว reload NginX</figcaption></figure>
+<p>ชื่อ <code>id-231.com</code> ไม่ได้จดทะเบียนใน DNS จริง จึงเพิ่ม 2 บรรทัดใน <code>/etc/hosts</code> ของเครื่อง Linux ที่ใช้ทดสอบ ให้ชื่อทั้งสองชี้ไปที่ IP ของ LB (<code>192.168.64.6</code>)</p>
+<figure class="shot"><img src="shots/l03-hosts.png" style="width:142.4mm"><figcaption>ภาพที่ 17 /etc/hosts ของเครื่อง Linux</figcaption></figure>
+
+<h2>6. การตรวจสอบการทำงาน</h2>
+<figure class="shot"><img src="shots/c01-nodes.png" style="width:178.0mm"><figcaption>ภาพที่ 18 node ของ cluster</figcaption></figure>
+<figure class="shot"><img src="shots/c15-get-workload.png" style="width:178.0mm"><figcaption>ภาพที่ 19 Deployment, ReplicaSet และ Pod ใน namespace id-231</figcaption></figure>
+<figure class="shot"><img src="shots/c16-get-svc.png" style="width:178.0mm"><figcaption>ภาพที่ 20 Service, Endpoints, PV และ PVC</figcaption></figure>
+<figure class="shot"><img src="shots/c19-desc-svc.png" style="width:178.0mm"><figcaption>ภาพที่ 21 describe Service ทั้ง 3 ตัว</figcaption></figure>
+<figure class="shot"><img src="shots/c17-desc-www.png" style="width:145.7mm"><figcaption>ภาพที่ 22 describe Ingress www-id-231</figcaption></figure>
+<figure class="shot"><img src="shots/c18-desc-admin.png" style="width:145.7mm"><figcaption>ภาพที่ 23 describe Ingress admin-id-231</figcaption></figure>
+<p>ใน describe เห็นว่าแต่ละ path ชี้ไปที่ Service และ Pod IP ถูกตัว และ Ingress ของ admin มี annotation rewrite-target เป็น /edit</p>
+<figure class="shot"><img src="shots/c20-desc-deploy.png" style="width:178.0mm"><figcaption>ภาพที่ 24 describe Deployment app-research</figcaption></figure>
+
+<h2>7. ทดสอบการเข้าใช้งาน</h2>
+<p>ทดสอบจากเครื่อง Linux ที่ตั้ง /etc/hosts ไว้ เรียกด้วยชื่อ host ตรง ๆ ได้ 200 ทุกบริการ (ภาพหน้าจอของเว็บทุกหน้าอยู่ในไฟล์ผลการทดสอบ)</p>
+<figure class="shot"><img src="shots/l04-test-about.png" style="width:178.0mm"><figcaption>ภาพที่ 25 ทดสอบ /about</figcaption></figure>
+<figure class="shot"><img src="shots/l05-test-research.png" style="width:178.0mm"><figcaption>ภาพที่ 26 ทดสอบ /research</figcaption></figure>
+<figure class="shot"><img src="shots/l06-test-api.png" style="width:178.0mm"><figcaption>ภาพที่ 27 ทดสอบ /api/&lt;ข้อความ&gt;</figcaption></figure>
+<figure class="shot"><img src="shots/l07-test-admin.png" style="width:178.0mm"><figcaption>ภาพที่ 28 ทดสอบ admin.id-231.com</figcaption></figure>
+<p><code>www.id-231.com/edit</code> ได้ 404 เพราะหน้าแก้ไขเปิดให้เข้าทาง admin.id-231.com อย่างเดียว</p>
+<figure class="shot"><img src="shots/l08-edit.png" style="width:178.0mm"><figcaption>ภาพที่ 29 แก้ไขสรุปงานวิจัยผ่าน admin.id-231.com แล้วเปิด /research ดู</figcaption></figure>
+<figure class="shot"><img src="shots/c21-restart.png" style="width:178.0mm"><figcaption>ภาพที่ 30 ลบ Pod ของ app-research แล้วดูไฟล์ข้อมูลใน Pod ใหม่</figcaption></figure>
+<p>หลังลบ Pod แล้ว Pod ตัวใหม่ยังอ่านข้อมูลที่แก้ไว้ได้ เพราะไฟล์อยู่บน PersistentVolume</p>
+<figure class="shot"><img src="shots/m01-mac.png" style="width:178.0mm"><figcaption>ภาพที่ 31 ทดสอบจากเครื่อง MacBook</figcaption></figure>
+<p>เครื่อง MacBook ไม่ได้แก้ /etc/hosts จึงใช้ <code>curl --resolve</code> ให้ชื่อชี้ไปที่ LB แทน ผลที่ได้เหมือนกัน และ header <code>Server</code> เป็นของ NginX บนเครื่อง LB</p>
+<figure class="shot"><img src="shots/l10-lb-log.png" style="width:149.0mm"><figcaption>ภาพที่ 32 access log ของ LB</figcaption></figure>
+<figure class="shot"><img src="shots/c22-ingress-log.png" style="width:178.0mm"><figcaption>ภาพที่ 33 log ของ Ingress Controller นับตาม path และ Service ปลายทาง</figcaption></figure>
+<p>ใน log ของ Ingress Controller เห็นว่า /about ไป app-about, /research ไป app-research, /api ไป app-api และ request ของ admin (path /) ไปที่ app-research</p>
+
+<h2>8. สรุป</h2>
+<ul>
+<li>เข้าใช้บริการได้ครบ 4 รายการตามโจทย์ ด้วยชื่อ www.id-231.com และ admin.id-231.com</li>
+<li>Ingress เป็นตัวแยกเส้นทางตาม host และ path ไปที่ Service แบบ ClusterIP ของแต่ละแอป ไม่ต้องเปิด NodePort แยกทีละแอป</li>
+<li>admin.id-231.com ใช้ app-research ตัวเดียวกับ /research แต่ถูก rewrite ไปที่ /edit และข้อมูลที่บันทึกเก็บบน PersistentVolume</li>
+</ul>
+</body></html>

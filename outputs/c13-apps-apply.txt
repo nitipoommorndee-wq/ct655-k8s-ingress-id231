@@ -1,0 +1,20 @@
+$ kubectl apply -f k8s/10-app-about.yaml
+deployment.apps/app-about created
+service/app-about created
+
+$ kubectl apply -f k8s/20-app-research.yaml
+persistentvolume/research-pv created
+persistentvolumeclaim/research-pvc created
+deployment.apps/app-research created
+service/app-research created
+
+$ kubectl apply -f k8s/30-app-api.yaml
+deployment.apps/app-api created
+service/app-api created
+
+$ for d in app-about app-research app-api; do kubectl -n id-231 rollout status deployment/$d --timeout=300s; done
+Waiting for deployment "app-about" rollout to finish: 1 of 2 updated replicas are available...
+deployment "app-about" successfully rolled out
+deployment "app-research" successfully rolled out
+deployment "app-api" successfully rolled out
+

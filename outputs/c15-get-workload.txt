@@ -1,0 +1,19 @@
+$ kubectl -n id-231 get deployment,replicaset -o wide
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES               SELECTOR
+deployment.apps/app-about      2/2     2            2           76s   nginx        nginx:1.25           app=app-about
+deployment.apps/app-api        2/2     2            2           73s   app          python:3.12-alpine   app=app-api
+deployment.apps/app-research   1/1     1            1           74s   app          python:3.12-alpine   app=app-research
+
+NAME                                      DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES               SELECTOR
+replicaset.apps/app-about-5dd8cb95dc      2         2         2       76s   nginx        nginx:1.25           app=app-about,pod-template-hash=5dd8cb95dc
+replicaset.apps/app-api-599bb94d4f        2         2         2       73s   app          python:3.12-alpine   app=app-api,pod-template-hash=599bb94d4f
+replicaset.apps/app-research-5cc5556485   1         1         1       74s   app          python:3.12-alpine   app=app-research,pod-template-hash=5cc5556485
+
+$ kubectl -n id-231 get pods -o wide
+NAME                            READY   STATUS    RESTARTS   AGE   IP            NODE          NOMINATED NODE   READINESS GATES
+app-about-5dd8cb95dc-qxs92      1/1     Running   0          76s   10.244.2.14   k8s-worker1   <none>           <none>
+app-about-5dd8cb95dc-zcvqk      1/1     Running   0          76s   10.244.1.12   k8s-worker2   <none>           <none>
+app-api-599bb94d4f-9zfxp        1/1     Running   0          73s   10.244.1.13   k8s-worker2   <none>           <none>
+app-api-599bb94d4f-vq742        1/1     Running   0          73s   10.244.2.15   k8s-worker1   <none>           <none>
+app-research-5cc5556485-z94g9   1/1     Running   0          74s   10.244.2.16   k8s-worker1   <none>           <none>
+

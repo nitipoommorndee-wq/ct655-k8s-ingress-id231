@@ -1,0 +1,233 @@
+{
+ "c01": {
+  "file": "shots/c01-nodes.png",
+  "w": 1068,
+  "h": 130,
+  "cols": 145,
+  "rows": 6
+ },
+ "c02": {
+  "file": "shots/c02-files.png",
+  "w": 599,
+  "h": 310,
+  "cols": 80,
+  "rows": 18
+ },
+ "c03": {
+  "file": "shots/c03-ns-yaml.png",
+  "w": 599,
+  "h": 130,
+  "cols": 80,
+  "rows": 6
+ },
+ "c04": {
+  "file": "shots/c04-about-yaml.png",
+  "w": 599,
+  "h": 850,
+  "cols": 80,
+  "rows": 54
+ },
+ "c05": {
+  "file": "shots/c05-about-conf.png",
+  "w": 599,
+  "h": 220,
+  "cols": 80,
+  "rows": 12
+ },
+ "c06": {
+  "file": "shots/c06-research-yaml.png",
+  "w": 635,
+  "h": 1570,
+  "cols": 85,
+  "rows": 102
+ },
+ "c07": {
+  "file": "shots/c07-api-yaml.png",
+  "w": 599,
+  "h": 790,
+  "cols": 80,
+  "rows": 50
+ },
+ "c08": {
+  "file": "shots/c08-ingress-yaml.png",
+  "w": 635,
+  "h": 895,
+  "cols": 85,
+  "rows": 57
+ },
+ "c09": {
+  "file": "shots/c09-ctl-nodeport.png",
+  "w": 909,
+  "h": 160,
+  "cols": 123,
+  "rows": 8
+ },
+ "c10": {
+  "file": "shots/c10-ctl-apply.png",
+  "w": 902,
+  "h": 400,
+  "cols": 122,
+  "rows": 24
+ },
+ "c11": {
+  "file": "shots/c11-ctl-get.png",
+  "w": 1177,
+  "h": 265,
+  "cols": 160,
+  "rows": 15
+ },
+ "c12": {
+  "file": "shots/c12-ns-cm.png",
+  "w": 1177,
+  "h": 325,
+  "cols": 160,
+  "rows": 19
+ },
+ "c13": {
+  "file": "shots/c13-apps-apply.png",
+  "w": 1054,
+  "h": 295,
+  "cols": 143,
+  "rows": 17
+ },
+ "c14": {
+  "file": "shots/c14-ingress-apply.png",
+  "w": 599,
+  "h": 160,
+  "cols": 80,
+  "rows": 8
+ },
+ "c15": {
+  "file": "shots/c15-get-workload.png",
+  "w": 1148,
+  "h": 310,
+  "cols": 156,
+  "rows": 18
+ },
+ "c16": {
+  "file": "shots/c16-get-svc.png",
+  "w": 1032,
+  "h": 295,
+  "cols": 140,
+  "rows": 17
+ },
+ "c17": {
+  "file": "shots/c17-desc-www.png",
+  "w": 613,
+  "h": 340,
+  "cols": 82,
+  "rows": 20
+ },
+ "c18": {
+  "file": "shots/c18-desc-admin.png",
+  "w": 613,
+  "h": 310,
+  "cols": 82,
+  "rows": 18
+ },
+ "c19": {
+  "file": "shots/c19-desc-svc.png",
+  "w": 1090,
+  "h": 340,
+  "cols": 148,
+  "rows": 20
+ },
+ "c20": {
+  "file": "shots/c20-desc-deploy.png",
+  "w": 1112,
+  "h": 745,
+  "cols": 151,
+  "rows": 47
+ },
+ "c21": {
+  "file": "shots/c21-restart.png",
+  "w": 945,
+  "h": 190,
+  "cols": 128,
+  "rows": 10
+ },
+ "c22": {
+  "file": "shots/c22-ingress-log.png",
+  "w": 1177,
+  "h": 265,
+  "cols": 160,
+  "rows": 15
+ },
+ "l01": {
+  "file": "shots/l01-lb-conf.png",
+  "w": 692,
+  "h": 415,
+  "cols": 93,
+  "rows": 25
+ },
+ "l02": {
+  "file": "shots/l02-lb-apply.png",
+  "w": 1039,
+  "h": 220,
+  "cols": 141,
+  "rows": 12
+ },
+ "l03": {
+  "file": "shots/l03-hosts.png",
+  "w": 599,
+  "h": 370,
+  "cols": 80,
+  "rows": 22
+ },
+ "l04": {
+  "file": "shots/l04-test-about.png",
+  "w": 1018,
+  "h": 190,
+  "cols": 138,
+  "rows": 10
+ },
+ "l05": {
+  "file": "shots/l05-test-research.png",
+  "w": 960,
+  "h": 145,
+  "cols": 130,
+  "rows": 7
+ },
+ "l06": {
+  "file": "shots/l06-test-api.png",
+  "w": 996,
+  "h": 220,
+  "cols": 135,
+  "rows": 12
+ },
+ "l07": {
+  "file": "shots/l07-test-admin.png",
+  "w": 1119,
+  "h": 220,
+  "cols": 152,
+  "rows": 12
+ },
+ "l08": {
+  "file": "shots/l08-edit.png",
+  "w": 1177,
+  "h": 130,
+  "cols": 160,
+  "rows": 6
+ },
+ "l09": {
+  "file": "shots/l09-after-restart.png",
+  "w": 613,
+  "h": 85,
+  "cols": 82,
+  "rows": 3
+ },
+ "l10": {
+  "file": "shots/l10-lb-log.png",
+  "w": 627,
+  "h": 190,
+  "cols": 84,
+  "rows": 10
+ },
+ "m01": {
+  "file": "shots/m01-mac.png",
+  "w": 1177,
+  "h": 280,
+  "cols": 160,
+  "rows": 16
+ }
+}

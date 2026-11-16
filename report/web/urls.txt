@@ -1,0 +1,7 @@
+w1-about http://www.id-231.com/about
+w2-research http://www.id-231.com/research
+w3-api http://www.id-231.com/api/Hello K8s
+w4-api-id http://www.id-231.com/api/ID 68130231
+w5-admin http://admin.id-231.com/
+w6-admin-after http://admin.id-231.com/
+w7-research-after http://www.id-231.com/research

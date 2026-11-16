@@ -1,0 +1,18 @@
+$ kubectl -n id-231 describe ingress admin-id-231
+Name:             admin-id-231
+Labels:           <none>
+Namespace:        id-231
+Address:          192.168.64.4
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host              Path  Backends
+  ----              ----  --------
+  admin.id-231.com  
+                    /   app-research:80 (10.244.2.16:8080)
+Annotations:        nginx.ingress.kubernetes.io/rewrite-target: /edit
+Events:
+  Type    Reason  Age                From                      Message
+  ----    ------  ----               ----                      -------
+  Normal  Sync    32s (x2 over 67s)  nginx-ingress-controller  Scheduled for sync
+

@@ -1,0 +1,24 @@
+$ hostname -I
+192.168.64.6 fdda:12f1:d3cf:4f01:5054:ff:fec8:20 
+
+$ cat /etc/hosts
+127.0.0.1 localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+192.168.64.3 k8s-control
+192.168.64.5 k8s-worker1
+192.168.64.4 k8s-worker2
+192.168.64.6 k8s-lb
+192.168.64.6 www.id-231.com
+192.168.64.6 admin.id-231.com
+
+$ getent hosts www.id-231.com admin.id-231.com
+192.168.64.6    www.id-231.com
+192.168.64.6    admin.id-231.com
+

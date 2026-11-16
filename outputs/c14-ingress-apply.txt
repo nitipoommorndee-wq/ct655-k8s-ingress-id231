@@ -1,0 +1,9 @@
+$ kubectl apply -f k8s/40-ingress.yaml
+ingress.networking.k8s.io/www-id-231 created
+ingress.networking.k8s.io/admin-id-231 created
+
+$ kubectl -n id-231 get ingress
+NAME           CLASS   HOSTS              ADDRESS        PORTS   AGE
+admin-id-231   nginx   admin.id-231.com   192.168.64.4   80      61s
+www-id-231     nginx   www.id-231.com     192.168.64.4   80      61s
+

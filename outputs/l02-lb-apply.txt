@@ -1,0 +1,16 @@
+$ ls /etc/nginx/conf.d/
+k8s-lb.conf
+www-id-231.conf
+
+$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+$ sudo systemctl reload nginx
+
+$ systemctl is-active nginx
+active
+
+$ sudo ss -tlnp | grep ':80 '
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=33818,fd=6),("nginx",pid=33817,fd=6),("nginx",pid=22361,fd=6))
+

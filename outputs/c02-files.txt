@@ -1,0 +1,18 @@
+$ find . -type f | sort
+./apps/app-about/default.conf
+./apps/app-about/index.html
+./apps/app-about/photo.jpg
+./apps/app-api/app.py
+./apps/app-research/app.py
+./apps/app-research/research.txt
+./cleanup.sh
+./deploy.sh
+./external-lb/www-id-231.conf
+./hosts/hosts
+./ingress-controller/deploy.yaml
+./k8s/00-namespace.yaml
+./k8s/10-app-about.yaml
+./k8s/20-app-research.yaml
+./k8s/30-app-api.yaml
+./k8s/40-ingress.yaml
+

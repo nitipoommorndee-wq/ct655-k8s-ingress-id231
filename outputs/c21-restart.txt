@@ -1,0 +1,13 @@
+$ kubectl -n id-231 delete pod -l app=app-research
+pod "app-research-5cc5556485-2jmfj" deleted
+
+$ kubectl -n id-231 rollout status deployment/app-research --timeout=120s
+deployment "app-research" successfully rolled out
+
+$ kubectl -n id-231 get pods -l app=app-research -o wide
+NAME                            READY   STATUS    RESTARTS   AGE   IP            NODE          NOMINATED NODE   READINESS GATES
+app-research-5cc5556485-8qwmz   1/1     Running   0          32s   10.244.2.19   k8s-worker1   <none>           <none>
+
+$ kubectl -n id-231 exec deploy/app-research -- head -n 1 /data/research.txt
+Web-Based IDE (edited from admin.id-231.com)
+

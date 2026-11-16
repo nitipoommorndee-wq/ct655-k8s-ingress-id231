@@ -1,0 +1,23 @@
+$ kubectl apply -f k8s/00-namespace.yaml
+namespace/id-231 created
+
+$ kubectl -n id-231 create configmap app-about-web --from-file=apps/app-about/index.html --from-file=apps/app-about/photo.jpg
+configmap/app-about-web created
+
+$ kubectl -n id-231 create configmap app-about-conf --from-file=apps/app-about/default.conf
+configmap/app-about-conf created
+
+$ kubectl -n id-231 create configmap app-research-code --from-file=apps/app-research/app.py --from-file=apps/app-research/research.txt
+configmap/app-research-code created
+
+$ kubectl -n id-231 create configmap app-api-code --from-file=apps/app-api/app.py
+configmap/app-api-code created
+
+$ kubectl -n id-231 get configmap
+NAME                DATA   AGE
+app-about-conf      1      1s
+app-about-web       2      1s
+app-api-code        1      1s
+app-research-code   2      1s
+kube-root-ca.crt    1      2s
+

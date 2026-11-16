@@ -1,0 +1,9 @@
+$ curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download} bytes\n' http://www.id-231.com/research
+200 text/html; charset=utf-8 7674 bytes
+
+$ curl -s http://www.id-231.com/research | grep -o '<p>' | wc -l
+5
+
+$ curl -s http://www.id-231.com/research | grep -o 'app-research &middot; pod [a-z0-9-]*'
+app-research &middot; pod app-research-5cc5556485-z94g9
+

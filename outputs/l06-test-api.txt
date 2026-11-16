@@ -1,0 +1,15 @@
+$ curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download} bytes\n' http://www.id-231.com/api/Hello-K8s
+200 text/html; charset=utf-8 744 bytes
+
+$ curl -s http://www.id-231.com/api/Hello-K8s | grep -o '<h1>.*</h1>'
+<h1>Hello-K8s</h1>
+
+$ curl -s http://www.id-231.com/api/CT655%20ID%20231 | grep -o '<h1>.*</h1>'
+<h1>CT655 ID 231</h1>
+
+$ for i in 1 2 3 4; do curl -s http://www.id-231.com/api/x | grep -o 'pod [a-z0-9-]*'; done
+pod app-api-599bb94d4f-9zfxp
+pod app-api-599bb94d4f-vq742
+pod app-api-599bb94d4f-vq742
+pod app-api-599bb94d4f-9zfxp
+

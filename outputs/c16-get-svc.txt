@@ -1,0 +1,19 @@
+$ kubectl -n id-231 get svc,endpoints -o wide
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/app-about      ClusterIP   10.103.195.147   <none>        80/TCP    77s   app=app-about
+service/app-api        ClusterIP   10.99.240.121    <none>        80/TCP    74s   app=app-api
+service/app-research   ClusterIP   10.101.19.158    <none>        80/TCP    75s   app=app-research
+
+NAME                     ENDPOINTS                           AGE
+endpoints/app-about      10.244.1.12:80,10.244.2.14:80       77s
+endpoints/app-api        10.244.1.13:8080,10.244.2.15:8080   74s
+endpoints/app-research   10.244.2.16:8080                    74s
+
+$ kubectl get pv
+NAME          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                 STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+research-pv   100Mi      RWO            Retain           Bound    id-231/research-pvc   manual         <unset>                          75s
+
+$ kubectl -n id-231 get pvc
+NAME           STATUS   VOLUME        CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+research-pvc   Bound    research-pv   100Mi      RWO            manual         <unset>                 75s
+

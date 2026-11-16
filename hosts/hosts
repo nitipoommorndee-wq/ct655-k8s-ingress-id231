@@ -1,0 +1,3 @@
+# add these lines to /etc/hosts of the client (192.168.64.6 = external LB)
+192.168.64.6 www.id-231.com
+192.168.64.6 admin.id-231.com

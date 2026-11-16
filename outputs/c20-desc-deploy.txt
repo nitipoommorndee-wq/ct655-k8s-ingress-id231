@@ -1,0 +1,47 @@
+$ kubectl -n id-231 describe deployment app-research | grep -vE '^(Annotations|CreationTimestamp|Labels|MinReadySeconds)'
+Name:               app-research
+Namespace:          id-231
+Selector:           app=app-research
+Replicas:           1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:       Recreate
+Pod Template:
+  Labels:  app=app-research
+  Containers:
+   app:
+    Image:      python:3.12-alpine
+    Port:       8080/TCP
+    Host Port:  0/TCP
+    Command:
+      python
+      /app/app.py
+    Readiness:  http-get http://:8080/healthz delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      DATA_FILE:     /data/research.txt
+      DEFAULT_FILE:  /app/research.txt
+      PUBLIC_URL:    http://www.id-231.com/research
+    Mounts:
+      /app from code (rw)
+      /data from data (rw)
+  Volumes:
+   code:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      app-research-code
+    Optional:  false
+   data:
+    Type:          PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:     research-pvc
+    ReadOnly:      false
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   app-research-5cc5556485 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  76s   deployment-controller  Scaled up replica set app-research-5cc5556485 to 1
+

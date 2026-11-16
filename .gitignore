@@ -1,0 +1,6 @@
+report/.chrome/
+outputs/*.body
+report/.venv/
+report/.pages-*
+report/shots/*.html
+.DS_Store

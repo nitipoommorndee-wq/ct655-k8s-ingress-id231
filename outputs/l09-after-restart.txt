@@ -1,0 +1,3 @@
+$ curl -s http://www.id-231.com/research | grep -o '<h1>.*</h1>'
+<h1>Web-Based IDE (edited from admin.id-231.com)</h1>
+

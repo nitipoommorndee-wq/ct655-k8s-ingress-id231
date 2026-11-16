@@ -1,0 +1,16 @@
+$ ping -c 2 192.168.64.6 | tail -n 3
+--- 192.168.64.6 ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 1.003/1.123/1.243/0.120 ms
+
+$ for u in www.id-231.com/about www.id-231.com/research www.id-231.com/api/Hello-K8s admin.id-231.com/; do curl -s -o /dev/null -w "%{http_code} http://$u\n" --resolve www.id-231.com:80:192.168.64.6 --resolve admin.id-231.com:80:192.168.64.6 http://$u; done
+200 http://www.id-231.com/about
+200 http://www.id-231.com/research
+200 http://www.id-231.com/api/Hello-K8s
+200 http://admin.id-231.com/
+
+$ curl -sI --resolve www.id-231.com:80:192.168.64.6 --resolve admin.id-231.com:80:192.168.64.6 http://www.id-231.com/about | grep -E '^(HTTP|Server|Content-Type)'
+HTTP/1.1 200 OK
+Server: nginx/1.24.0 (Ubuntu)
+Content-Type: text/html; charset=utf-8
+
